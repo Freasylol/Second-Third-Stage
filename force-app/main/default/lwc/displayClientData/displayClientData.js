@@ -3,42 +3,16 @@ import { NavigationMixin } from 'lightning/navigation';
 import getAccounts from '@salesforce/apex/DisplayClientData.getAccounts';
 import getClosedOpportunitiesByAccountId from '@salesforce/apex/DisplayClientData.getClosedOpportunitiesByAccountId';
 import getOpportunitiesProductByOpportunityId from '@salesforce/apex/DisplayClientData.getOpportunitiesProductByOpportunityId';
+// import getAccountById from '@salesforce/apex/DisplayClientData.getAccountById'
+import getClosedOpportunitiesByAccountList from '@salesforce/apex/DisplayClientData.getClosedOpportunitiesByAccountList';
 import searchAccountsByName from '@salesforce/apex/DisplayClientData.searchAccountsByName';
 import DisplayClientDataModal from 'c/displayClientDataModal';
 
 const PAGE_SIZE = 10;
 
 export default class LightningExampleAccordionBasic extends NavigationMixin(LightningElement)  {
-  // pageName = 'tab';
   @api recordId;
   isDetail = false;
-
-  // isTabVisible() {
-  //   console.log('CurPageName' + curPageName);
-  //   return this.pageName === 'tab';
-  // }
-
-  // isDetail() {
-  //   console.log('CurPageName' + curPageName);
-  //   return this.pageName === 'detail-page';
-  // }
-
-  // isDetail() {
-  //   if (this.recordId != undefined) {
-  //     return true;
-  //   }
-  //   return false;
-  //   // if (location.href.indexOf('lightning/r/Account/') > -1) {
-  //   //   return true;
-  //   // }
-  //   // return false
-  //   // if (location.href.indexOf('lightning/r/Account/') > -1) {
-      
-  //   // } else {
-  //   //    return false;
-  //   // }   
-
-  // }
 
   labelArr = [];
   valueArr = [];
@@ -72,9 +46,9 @@ export default class LightningExampleAccordionBasic extends NavigationMixin(Ligh
       this.currentPage = 1;
       let searchAccounts = [];
       if (Number(this.numSearchStr) !== 0) {;
-        // let searchAccounts = value;
-        value.forEach((valueEl, valueElIndex) => {          
-          let opportunity = getClosedOpportunitiesByAccountId({accountId: valueEl.Id})
+        let searchAccounts = value;
+        value.forEach((valueEl, valueElIndex) => { 
+        let opportunityPromise = getClosedOpportunitiesByAccountId({accountId: valueEl.Id})
           .then((oppValue) => {
             console.log(oppValue.length);
             console.log(this.numSearchStr)
@@ -197,35 +171,44 @@ export default class LightningExampleAccordionBasic extends NavigationMixin(Ligh
     // if (location.href.indexOf('lightning/r/Account/') > -1) {
       
     // }
-    if (this.recordId) {
-      this.isDetail = true;
-    }
-    console.log(this.recordId);
     console.log(data);
     this.genMap = [];
     this.labelArr = [];
     this.valueArr = [];
-    data.forEach((dataEl, index) => {
-      let opportunity = getClosedOpportunitiesByAccountId({accountId: dataEl.Id})
+    if (this.recordId) {
+      this.isDetail = true;
+      console.log('--------');
+      console.log(data);
+      console.log(data[0]);
+      let accountDetail;
+      data.forEach((dataEl) => {
+        if (dataEl.Id === this.recordId) {
+          accountDetail = dataEl;
+          return;
+        }
+      })
+      // getAccountById({accountId: this.recordId})
+      getClosedOpportunitiesByAccountId({accountId: this.recordId})
       .then((value) => {
-        this.labelArr.push(`${dataEl.Name} - ${String(value.length)}`);
-        if (value.length != 0) {
-          let newValueArr = [];
-          value.forEach((valueEl) => {
-            newValueArr.push({
-              id: `${valueEl.Id}`,
-              createdDate: `${valueEl.CreatedDate}`,
-              closeDate: `${valueEl.CloseDate}`,
-              amount: `${valueEl.Amount}`,
-              oppUrl: `/${valueEl.Id}`,
-              oppName: `${valueEl.Name}`,
+        console.log(accountDetail.Name);
+        this.labelArr.push(`${accountDetail.Name} - ${String(value.length)}`);
+          if (value.length != 0) {
+            let newValueArr = [];
+            value.forEach((valueEl) => {
+              newValueArr.push({
+                id: `${valueEl.Id}`,
+                createdDate: `${valueEl.CreatedDate}`,
+                closeDate: `${valueEl.CloseDate}`,
+                amount: `${valueEl.Amount}`,
+                oppUrl: `/${valueEl.Id}`,
+                oppName: `${valueEl.Name}`,
+              })
             })
-          })
-          this.valueArr.push(newValueArr);
-        } else {
-          this.valueArr.push(undefined);
-        }          
-        if (index + 1 === data.length) {
+            this.valueArr.push(newValueArr);
+          } else {
+            this.valueArr.push(undefined);
+          }          
+
           // console.log('Label arr is ' + this.labelArr);
           this.labelArr.forEach((labelEl, labelIndex) => {
             // console.log(this.valueArr[labelIndex]);
@@ -234,17 +217,64 @@ export default class LightningExampleAccordionBasic extends NavigationMixin(Ligh
             console.log(this.genMap.length);
             if (labelIndex + 1 === this.labelArr.length) {
               this.sectionMap = this.genMap;
-              this.pageData = this.sectionMap.slice(0, 9);
+              console.log('Im here');
+              this.pageData = this.sectionMap.slice(0,1);
               return;
             }
           })
-         
-        } 
+          
       })
       .catch((error) => {
         console.log(error);
-      });
-    })
+      })
+
+    } else {
+      // console.log(this.recordId);
+      // console.log(data);
+      // this.genMap = [];
+      // this.labelArr = [];
+      // this.valueArr = [];
+      data.forEach((dataEl, index) => {
+        let opportunityPromise = getClosedOpportunitiesByAccountId({accountId: dataEl.Id})
+        .then((value) => {
+          this.labelArr.push(`${dataEl.Name} - ${String(value.length)}`);
+          if (value.length != 0) {
+            let newValueArr = [];
+            value.forEach((valueEl) => {
+              newValueArr.push({
+                id: `${valueEl.Id}`,
+                createdDate: `${valueEl.CreatedDate}`,
+                closeDate: `${valueEl.CloseDate}`,
+                amount: `${valueEl.Amount}`,
+                oppUrl: `/${valueEl.Id}`,
+                oppName: `${valueEl.Name}`,
+              })
+            })
+            this.valueArr.push(newValueArr);
+          } else {
+            this.valueArr.push(undefined);
+          }          
+          if (index + 1 === data.length) {
+            // console.log('Label arr is ' + this.labelArr);
+            this.labelArr.forEach((labelEl, labelIndex) => {
+              // console.log(this.valueArr[labelIndex]);
+              let newMap = {key: labelEl, value: this.valueArr[labelIndex]};
+              this.genMap.push(newMap);
+              console.log(this.genMap.length);
+              if (labelIndex + 1 === this.labelArr.length) {
+                this.sectionMap = this.genMap;
+                this.pageData = this.sectionMap.slice(0, 9);
+                return;
+              }
+            })
+          
+          } 
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      })
+      }
   }
 
   @wire (getAccounts)

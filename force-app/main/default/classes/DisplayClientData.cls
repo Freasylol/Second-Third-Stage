@@ -11,6 +11,14 @@ public with sharing class DisplayClientData {
         ];
     }
 
+    public static Account getAccountById(String accountId) {
+      return [
+        SELECT Id, Name
+        FROM Account
+        WHERE Id=:accountId
+      ];
+    }
+
     @AuraEnabled(cacheable=true)
     public static List<Opportunity> getClosedOpportunitiesByAccountId(String accountId) {
       return [
@@ -18,6 +26,15 @@ public with sharing class DisplayClientData {
         FROM Opportunity
         WHERE StageName='Closed Won' AND AccountId=:accountId
         ];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Opportunity> getClosedOpportunitiesByAccountList(List<Account> accountList) {
+      return [
+        SELECT Id, Name, AccountId, StageName, CreatedDate, CloseDate, Amount
+        FROM Opportunity
+        WHERE StageName='Closed Won'
+      ];
     }
 
     @AuraEnabled(cacheable=true)

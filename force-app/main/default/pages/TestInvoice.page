@@ -26,7 +26,7 @@
                 }                
                 .pdf-invoice-info__logo {
                 	padding-top: 30px;
-					padding-left: 40px;
+					        padding-left: 40px;
                 	width: 150px;
                 }
                 
