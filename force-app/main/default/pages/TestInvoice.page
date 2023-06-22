@@ -1,0 +1,289 @@
+<apex:page standardController="Opportunity" extensions="pdfInvoiceController" applyHtmlTag="false" showHeader="false" renderAs="pdf">
+    <html>
+        <head>
+            <style>
+                * {
+                	margin: 0;
+                	box-sizing: border-box;
+                	font-family: 'Helvetica',sans-serif;
+                }
+                hr {
+                	background-color: #CCC9C9;
+                	border: 0;
+                	height: 1px;
+                }
+                table, td, tr, th {
+                	vertical-align: top;
+                }
+
+                .pdf-invoice {
+                	width: 100%;
+                }
+                .pdf-invoice-info {
+                	background-color: #F3F3F3;     
+                	width: 100%;
+                	margin-bottom: 50px;
+                }                
+                .pdf-invoice-info__logo {
+                	padding-top: 30px;
+					padding-left: 40px;
+                	width: 150px;
+                }
+                
+                .pdf-invoice-info__company-info-item-owner {
+                	color: #2E2E2E;
+                	font-size: 12px;
+                }
+                .pdf-invoice-info__company-info-item-address {
+                	color: #2E2E2E;
+                	font-size: 12px;
+                	padding-bottom: 10px;
+                }
+                .pdf-invoice-info__company-info-item-company-name {
+                	font-size: 14px;
+                	color: #2E2E2E;
+                	padding-bottom: 10px;
+                }
+                .product-table-header {
+                	background-color: #fe5722;
+                }
+                .product-table-header__item {
+                	color: #fff;
+                	text-transform: uppercase;
+                	font-size: 12px;
+                	font-weight: 600;
+                }
+                .product-name {
+                	width: 400px;
+                }
+                .quantity-name {
+                	width: 100px;
+                }
+                .price-name {
+                	width: 150px;
+                }
+                .total-name {
+                	width: 150px;
+                }
+                .pdf-invoice__orange-line {
+                	height: 20px;
+                	width: 100%;
+                	background-color: #fe5722;
+                }
+                .pdf-invoice-info__company-info { 
+                	padding-top: 40px;
+                }
+                .pdf-invoice-info__invoice-info {
+                	padding-top: 0px;
+                	padding-right: 30px;
+                	width: 130px;
+                	padding-bottom: 40px;
+                }
+                .pdf-invoice-info__invoice-item {
+                	color: #CCC9C9;
+                	font-size: 20px;
+                	font-weight: 100;
+                	padding-bottom: 40px;
+                	padding-top: 60px;
+                }
+                .pdf-invoice-bill {
+					        margin-bottom: 50px;
+                }
+                .pdf-invoice-bill__item {
+                	margin-top: 15px;
+                	font-size: 14px;
+                }
+                .pdf-invoice-bill__header {
+                	font-size: 12px;
+                	margin-bottom: 5px;
+                	color: #000080;
+                }
+                .pdf-invoice-info__date-item {
+                	font-size: 10px;
+                	color: #000080;
+                	padding-bottom: 5px;
+                }
+                .pdf-invoice-info__invoice-no-item {
+                	padding-top: 40px;
+                	font-size: 10px;
+                	color: #000080;
+                	padding-bottom: 5px;
+                }
+                
+                .productTableClass {
+                	border-collapse: collapse;
+                  width: 100%;
+                }
+                .theHead {
+                	background-color: #fe5722;  
+                	color:#fff;
+                 }
+                .theHead, .col {
+                  text-align: center;
+                 	
+                 }
+                .col {
+                	border: 1px solid #bbb;
+                }
+                .product-col {
+                	width: 350px;
+                }
+                .quantity-col {
+                	width: 120px;
+                }
+                .unit-price-col {
+                	width: 130px;
+                	text-align: right;
+                }
+                .total-col {
+                	width: 130px;
+                	text-align: right;
+                }
+                .product-table-header {
+                	font-size: 12px;
+                }
+                .even {
+                  background-color: #ddd;
+                  border: 2px solid #ccc;
+                }
+                .opportunity-amount {
+                	background-color: red;
+                }
+                .unit-price-footer {
+                	text-align: right;
+                	padding-top: 15px;
+                	padding-right: 5px;
+                	border-top: 1px solid #000;
+                }
+                .total-footer {
+                	display: block;
+                
+                	text-align: center;
+                	padding-top: 15px;
+                	padding-bottom: 15px;
+                	background-color: #F4CCCC;
+                	border-top: 1px solid #000;
+                	border-bottom: 1px solid #000;
+                	
+                	font-weight: bold;
+                }
+                .footer {
+                	background-color: #fe5722; 
+                	color: #fff;
+                }
+                .odd {
+                  background-color: #fff;
+                }
+/* 
+                .even {
+                  background-color: #fff;
+                } */
+            </style>
+        </head>
+        <body>
+          <!-- <apex:outputText value="{!opportunityId}"></apex:outputText> -->
+          <!-- <apex:param value="" name="id"/> -->
+          <!-- <apex:param assignTo="{!id}" value="{!Opportunity.Id}"/> -->
+            <table class="pdf-invoice__orange-line">
+                <tr>
+                   <td></td>
+                </tr>
+            </table>
+            <table class="pdf-invoice-info">
+                <tr>
+                	<td class="pdf-invoice-info__logo">
+                        <apex:image value="{!$Resource.Logo}" width="60" height="60"/>
+                    </td>
+                    <td class="pdf-invoice-info__company-info">
+                        <div class="pdf-invoice-info__company-info-item-company-name">
+                            <apex:outputField value="{!organization.Name}"/>
+                        </div>
+                        <div class="pdf-invoice-info__company-info-item-address">
+                            <apex:outputText value="{!organization.Country}, {!organization.City}, {!organization.Street}"/>
+                        </div>
+                        <div class="pdf-invoice-info__company-info-item-owner">
+                            <apex:outputText value="{!user.Name}"/>
+                        </div>
+                    </td>
+                    <td class="pdf-invoice-info__invoice-info">
+                        <div class="pdf-invoice-info__invoice-item">
+                            <center>
+                                <apex:outputText value="{!curOpportunityId}"></apex:outputText>
+                                INVOICE
+                            </center>
+                        </div>
+                         <div class="pdf-invoice-info__date-item">
+                            <center>
+                                {!DAY(TODAY())}-{!MONTH(TODAY())}-{!YEAR(TODAY())}
+                            </center>
+                            
+                        </div>
+                        <hr/>
+                         <div class="pdf-invoice-info__invoice-no-item">
+                            <center>
+                                <apex:outputText value="{!Opportunity.Invoice_Number__c}"></apex:outputText>
+                            </center>
+                        </div>
+                        <hr/>
+                    </td>
+                    
+                </tr>
+            </table>
+            
+            <apex:param name="inputTextField" value="" assignTo="{!inputText}"/>
+
+            <div class="pdf-invoice-bill">
+                <div class="pdf-invoice-bill__header">
+                    BILL TO
+            	</div>
+                <hr/>
+                <div  class="pdf-invoice-bill__item">
+                    <apex:outputText value="{!contact.Name}"/>
+                </div>
+                <div class="pdf-invoice-bill__item">
+                    <apex:outputText value="{!account.Name}"/>
+                </div>
+                <div class="pdf-invoice-bill__item">
+                    <apex:outputText value="{!contact.MobilePhone}"/>
+                </div>
+                <div class="pdf-invoice-bill__item">
+                    <apex:outputText value="{!contact.Email}"/>
+                </div>
+            </div>
+
+
+            
+            <apex:dataTable value="{!opportunityProducts}" var="opportunityProduct" id="productTable" headerClass="theHead"
+                            rowClasses="odd, even" styleClass="productTableClass">
+                <apex:column styleClass="product-col col">
+                	<apex:facet name="header" ><div class="product-table-header">PRODUCT NAME</div></apex:facet>
+                    <apex:outputText value="{!opportunityProduct.Name}"></apex:outputText>
+                </apex:column>
+                <apex:column styleClass="quantity-col col">
+                    <apex:facet name="header"><div class="product-table-header">QTY</div></apex:facet>
+                    <apex:outputText value="{!opportunityProduct.Quantity}"></apex:outputText>
+                    <apex:facet name="footer"></apex:facet>
+                </apex:column>
+                <apex:column styleClass="unit-price-col col">
+                    <apex:facet name="header"><div class="product-table-header">UNIT PRICE</div></apex:facet>
+                    <apex:outputText value="{!opportunityProduct.UnitPrice}"></apex:outputText>
+                    <apex:facet name="footer">
+                        <p class="unit-price-footer">Balance Due</p>
+                    </apex:facet>
+                </apex:column>
+                <apex:column styleClass="total-col col">
+                    <apex:facet name="header"><div class="product-table-header">TOTAL</div></apex:facet>
+                    <apex:outputText value="{!opportunityProduct.TotalPrice}"></apex:outputText>
+                    <apex:facet name="footer">
+                        <apex:outputText styleClass="total-footer" value="{!'$'}{!totalSum}"></apex:outputText>
+                    </apex:facet>
+                </apex:column>
+            </apex:dataTable>   
+            <div class="footer">
+                <center>
+                    <apex:outputField value="{!organization.Name}"/>
+                </center>
+            </div>
+        </body>
+    </html>
+</apex:page>

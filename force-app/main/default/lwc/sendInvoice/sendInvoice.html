@@ -1,0 +1,22 @@
+<template>
+  
+  <lightning-quick-action-panel header="Send Invoice">
+    <div>
+      <a onclick={navigateToFiles}>Navigate to files</a>
+    </div>
+    <div class="slds-m-top_medium">
+      <template for:each={emailTemplate.data} for:item="emTempl">
+        <li key={emTempl.Id} style="list-style-type:none">
+          {emTempl.Subject}<br>
+          {orderNum.data}<br>
+          {receiverName.data}<br>
+          {receiverEmail.data}<br>
+          <lightning-input label="Email body" value={emTempl.Body}></lightning-input>
+         
+        </li>
+      </template> 
+      <lightning-button label="Send" variant="neutral" onclick={handleBtnClick}>
+      </lightning-button>
+    </div>
+  </lightning-quick-action-panel>
+</template>

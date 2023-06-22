@@ -1,0 +1,43 @@
+<template>
+  <template if:false={isDetail}>
+    <lightning-card>
+      <div class="slds-p-around_medium lgc-bg">
+        <lightning-input
+          data-show-on="tab"
+          type="text"
+          label="Search by account name"
+          onkeyup={handleNameSearch}>
+        </lightning-input>
+        <lightning-input 
+          data-show-on="tab"
+          type="number"
+          label="Search by closed opps"
+          onkeyup={handleNumSearch}>
+       </lightning-input>
+      </div>
+      <lightning-accordion class="example-accordion"
+                           active-section-name="B"
+                           onsectiontoggle={handleSectionToggle}>
+        <template for:each={pageData} for:item="sectionMapEl">
+          <lightning-accordion-section key={sectionMapEl.key} label={sectionMapEl.key}>
+            <lightning-datatable
+                    key-field="id"
+                    data={sectionMapEl.value} 
+                    columns={columns}
+                    onrowaction={onRowAction}>
+            </lightning-datatable>
+          </lightning-accordion-section>        
+        </template>
+      </lightning-accordion>
+      <div>
+        <button onclick={previousPage}>Prev</button>
+        <button onclick={nextPage}>Next</button>
+      </div>
+    </lightning-card>
+    
+  </template>
+  <template if:true={isDetail}>
+    Detail deailjrjlksajfs
+  </template>
+  
+</template>

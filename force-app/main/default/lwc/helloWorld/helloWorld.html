@@ -1,0 +1,10 @@
+<template>
+  <lightning-card title="SendInvoice">
+    <div class="slds-m-around_medium">
+      <template for:each={emailTemplates.data} for:item="el">
+        <lightning-input readonly="true" value={el.Subject} key={el.Subject}></lightning-input> 
+        <lightning-input label="Email body" value={el.Body} key={el.Body}></lightning-input> 
+      </template>
+    </div>
+  </lightning-card>
+</template>

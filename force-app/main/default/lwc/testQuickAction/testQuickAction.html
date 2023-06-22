@@ -1,0 +1,43 @@
+<template> 
+ 
+  <lightning-record-view-form record-id={recordId} object-api-name="Account"> 
+  
+  <lightning-quick-action-panel style="color:#306BFF" header="Account Basic Information"> 
+    
+  <div class="slds-grid"> 
+  
+  <div class="slds-col slds-size_1-of-3"> 
+  
+    <lightning-output-field field-name="Name"></lightning-output-field> 
+    
+    <lightning-output-field field-name="AccountNumber"></lightning-output-field> 
+  
+  </div> 
+  
+  <div class="slds-col slds-size_1-of-3"> 
+  
+    <lightning-output-field field-name="Phone"></lightning-output-field> 
+  
+    <lightning-output-field field-name="BillingAddress"></lightning-output-field> 
+  
+  </div> 
+  
+  <div class="slds-col slds-size_1-of-3"> 
+  
+    <img src="https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png" style="width: 150px; height: 150px;"> 
+  
+  </div> 
+  
+  </div> 
+  
+  <div slot="footer"> 
+  
+    <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> 
+  
+  </div> 
+  
+  </lightning-quick-action-panel> 
+  
+  </lightning-record-view-form> 
+  
+  </template>
