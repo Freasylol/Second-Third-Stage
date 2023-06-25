@@ -1,4 +1,4 @@
-global class TestEmailService implements Messaging.InboundEmailHandler {
+global class OpportunityEmailService implements Messaging.InboundEmailHandler {
  
   global Messaging.InboundEmailResult handleInboundEmail(Messaging.inboundEmail email, 
                                                        Messaging.InboundEnvelope env){
@@ -98,11 +98,6 @@ global class TestEmailService implements Messaging.InboundEmailHandler {
     opportunityObj.StageName = 'Closed Lost';
     upsert opportunityObj;
   }
-
-
-
-
-
   
    // Set the result to true. No need to send an email back to the user 
    // with an error message

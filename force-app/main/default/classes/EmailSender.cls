@@ -1,11 +1,7 @@
 public with sharing class EmailSender {
-    public EmailSender() {
-
-    }
-
-    @AuraEnabled
+     @AuraEnabled
     public static void sendEmail(String toAddress, String replyToAddress, String subject, String body, String invoiceNum, String contentDocumentId){
-      // Messaging.reserveSingleEmailCapacity(2);
+      Messaging.reserveSingleEmailCapacity(2);
 
       Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
       mail.setToAddresses(new List<String>{toAddress});

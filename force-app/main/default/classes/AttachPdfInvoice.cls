@@ -11,52 +11,26 @@ public with sharing class AttachPdfInvoice {
 
       ContentVersion cVersion = new ContentVersion();
       cVersion.ContentLocation = 'S';
-      cVersion.VersionData = b;
-      List<ContentDocument> contentDocumentList = [SELECT Id, Title FROM ContentDocument];
-      // for (ContentDocument el : contentDocumentList) {
-      //   if (el.Title == invoiceName) {
-          // cVersion.ContentDocumentId = el.Id;
-          // cVersion.Title = el.Title;
-   
-      //     break;
-      //   }
-      // }
-      // if (invoiceName != null) {
-      //   cVersion.Title = invoiceName;
-      //   cVersion.PathOnClient = invoiceName + '.pdf';
-      //   insert cVersion;
-      // } else {
-      //   cVersion.Title = 'test';
-      //   cVersion.PathOnClient = cVersion.Title + '.pdf';
-      //   insert cVersion;
-      // }
-
-      // for (ContentVersion el : contentVersionList) {
-      //   if (el.PathOnClient == invoiceName + '.pdf') {
-      //     cVersion.ContentDocumentId = el.ContentDocumentId
-      //     //  = cVersion.ContentDocumentId;
-      //     el.VersionData = b;
-      //     isCoincidence = true;
-      //     insert el;
-      //     break;
-      //   } 
-      // }
-
-      // el.ContentDocumentId = cVersion.ContentDocumentId;
-      // el.VersionData = b;
-      // isCoincidence = true;
-      // insert el;
-      
-      // if (isCoincidence == false) {
-      // cVersion.Title = invoiceName;
-      // cVersion.PathOnClient = invoiceName + '.pdf';
-      // insert cVersion;
-      // }
-
-      cVersion.Title = invoiceName;
-      cVersion.VersionData = b;
-      cVersion.PathOnClient = invoiceName + '.pdf';
-      insert cVersion;
+      // cVersion.VersionData = b;
+      List<ContentDocument> contentDocumentList = [SELECT Id, Title, PublishStatus
+                                                   FROM ContentDocument
+                                                   WHERE PublishStatus='P'];
+      System.debug('ContentDocument is ' + contentDocumentList[0]);
+      String contentDocumentId = contentDocumentList[0].Id;
+      if (contentDocumentList.size() == 0) {
+        cVersion.Title = invoiceName;
+        cVersion.VersionData = b;
+        cVersion.PathOnClient = invoiceName + '.pdf';
+        cVersion.isMajorVersion = true;
+        insert cVersion;
+      } else {
+        cVersion.Title = invoiceName;
+        cVersion.ContentDocumentId = contentDocumentId;
+        cVersion.VersionData = b;
+        cVersion.PathOnClient = invoiceName + '.pdf';
+        cVersion.isMajorVersion = true;
+        insert cVersion;
+      }
 
       id conDocument = [SELECT ContentDocumentId FROM ContentVersion WHERE Id=:cVersion.Id].ContentDocumentId;
       ContentDocumentLink cDocLink = new ContentDocumentLink();
@@ -66,4 +40,6 @@ public with sharing class AttachPdfInvoice {
       cDocLink.ShareType = 'V';
       insert cDocLink;
   }
+
+
 }

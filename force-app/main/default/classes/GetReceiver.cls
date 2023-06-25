@@ -1,7 +1,4 @@
 public with sharing class GetReceiver {
-  public GetReceiver() {
-
-  }
 
   @AuraEnabled(cacheable=true)
   public static String getReceiverName(String recordId) {

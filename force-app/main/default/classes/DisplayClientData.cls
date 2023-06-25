@@ -1,7 +1,4 @@
 public with sharing class DisplayClientData {
-    public DisplayClientData() {
-
-    }
 
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccounts() {
@@ -29,7 +26,7 @@ public with sharing class DisplayClientData {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Opportunity> getClosedOpportunitiesByAccountList(List<Account> accountList) {
+    public static List<Opportunity> getClosedOpportunities() {
       return [
         SELECT Id, Name, AccountId, StageName, CreatedDate, CloseDate, Amount
         FROM Opportunity

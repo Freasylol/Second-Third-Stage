@@ -1,7 +1,4 @@
 public with sharing class ShowInvoiceController {
-    public ShowInvoiceController() {
-
-    }
     @AuraEnabled(cacheable=true)
     public static String getOpportunityInvoiceNum(String recordId) {
       return String.valueOf([
