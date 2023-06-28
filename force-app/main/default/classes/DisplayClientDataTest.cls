@@ -40,7 +40,6 @@ public class DisplayClientDataTest {
         insert opportunity;
      
         List<Opportunity> opportunities = DisplayClientData.getClosedOpportunitiesByAccountId(account.Id);
-        System.debug(opportunities);
 
         System.assertEquals(opportunity.Name, opportunities[0].Name);
         System.assertEquals(opportunity.Id, opportunities[0].Id);

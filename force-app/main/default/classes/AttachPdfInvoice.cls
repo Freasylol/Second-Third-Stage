@@ -3,20 +3,16 @@ public with sharing class AttachPdfInvoice {
     public static void attachPDF(String opportunityId) {
         Blob b;
         if (Test.isRunningTest()) {
-            System.debug('test');
             b = Blob.valueOf('test string');
         } else {
             b = generatePDF(opportunityId);
         }
         Opportunity opportunity = [SELECT Invoice_Number__c FROM Opportunity WHERE Id=:opportunityId];
         String invoiceName = opportunity.Invoice_Number__c;
-        System.debug(invoiceName);
         List<ContentDocument> contentDocumentList = [SELECT Id, Title, PublishStatus
                                                    FROM ContentDocument
                                                    WHERE PublishStatus='P' AND
                                                    Title=:invoiceName];
-        System.debug('Content document list size is ' + contentDocumentList.size());
-
         if (contentDocumentList.size() == 0) {
             ContentVersion cVersion = new ContentVersion();
             cVersion.ContentLocation = 'S';

@@ -27,8 +27,6 @@ public class GetReceiverTest {
         oppContactRole.OpportunityId = opportunity.Id;
         insert oppContactRole;
 
-        System.debug(contact.Name);
-
         Contact contactSoql = [
             SELECT Name
             FROM Contact

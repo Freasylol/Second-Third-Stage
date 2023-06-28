@@ -64,18 +64,12 @@ private class PdfInvoiceControllerTest {
     oppProduct.TotalPrice = oppProduct.Quantity * pricebookEntry.UnitPrice;
     insert oppProduct;
 
-    System.debug('Opportunity name is ' + opportunity.Name);
-
     Opportunity newOPP = [SELECT Invoice_Number__c FROM Opportunity WHERE Id=:opportunity.id];
 
     Opportunity testOpp = [SELECT Id, Name, OwnerId, Invoice_Number__c, Amount FROM Opportunity LIMIT 1];
-    System.debug('testOpp name is ' + testOpp.Name);
     ApexPages.StandardController oppController = new ApexPages.StandardController(testOpp);
     Opportunity testOp = (Opportunity)oppController.getRecord();
-    System.debug('Opp Id is ' + testOp.Id);
-    System.debug('Opp Name is ' + testOp.Name);
     PdfInvoiceController invoiceController = new PdfInvoiceController(oppController);
-    System.debug('CurOpportunity name is ' + opportunity.Name);
    
     System.assertEquals('Test Opportunity', opportunity.Name);
     Test.stopTest();

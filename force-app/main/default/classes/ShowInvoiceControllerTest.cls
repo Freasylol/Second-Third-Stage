@@ -12,7 +12,6 @@ public class ShowInvoiceControllerTest {
         opportunity.CloseDate = Date.today();
         insert opportunity;
         Opportunity testOpp = [SELECT Id, Invoice_Number__c FROM Opportunity WHERE Name='Test opportunity' LIMIT 1];
-        System.debug('Invoice_Number__c is ' + testOpp.Invoice_Number__c);      
         String testInvoiceNum = ShowInvoiceController.getOpportunityInvoiceNum(testOpp.Id);
         System.assertEquals(testOpp.Invoice_Number__c, testInvoiceNum);
         Test.stopTest();
@@ -37,8 +36,6 @@ public class ShowInvoiceControllerTest {
 
         ContentDocument contentDocument = new ContentDocument();
         ContentVersion testContentVersion  = [SELECT ContentDocumentId FROM ContentVersion WHERE Id=:contentVersion.Id];
-
-        System.debug(testContentVersion.Id);
 
         ContentDocumentLink doc = new ContentDocumentLink();
         doc.ContentDocumentId = testContentVersion.ContentDocumentId;

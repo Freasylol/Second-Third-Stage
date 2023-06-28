@@ -2,19 +2,19 @@
   
   <lightning-quick-action-panel header="Send Invoice">
     <div class="slds-m-vertical_medium">
-      <template for:each={emailTemplate.data} for:item="emTempl">
+      <template for:each={emailTemplate} for:item="emTempl">
         <li key={emTempl.Id} style="list-style-type:none">
           <div class="slds-text-body_regular">
             <span class="slds-text-title_bold" style="font-size:12px;">Subject:</span> {emTempl.Subject}
           </div>
           <div class="slds-text-body_regular">
-            <span class="slds-text-title_bold" style="font-size:12px;">Order Number:</span> {orderNum.data}
+            <span class="slds-text-title_bold" style="font-size:12px;">Order Number:</span> {orderNum}
           </div>
           <div class="slds-text-body_regular">
-            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Name:</span> {receiverName.data}
+            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Name:</span> {receiverName}
           </div>
           <div class="slds-text-body_regular">
-            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Email:</span> {receiverEmail.data}
+            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Email:</span> {receiverEmail}
           </div>
           <!-- {emTempl.Subject}<br>
           {orderNum.data}<br>

@@ -50,8 +50,6 @@ public class EmailSenderTest {
         ContentDocument contentDocument = new ContentDocument();
         ContentVersion testContentVersion  = [SELECT ContentDocumentId FROM ContentVersion WHERE Id=:contentVersion.Id];
 
-        System.debug(testContentVersion.Id);
-
         ContentDocumentLink doc = new ContentDocumentLink();
         doc.ContentDocumentId = testContentVersion.ContentDocumentId;
         doc.LinkedEntityId = opportunity.Id;

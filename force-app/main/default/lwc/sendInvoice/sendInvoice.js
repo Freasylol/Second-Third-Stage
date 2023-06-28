@@ -15,26 +15,118 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
 
     @api recordId;
 
-    @wire (getOpportunityInvoiceNum, {recordId: '$recordId'})
     opportunityInvoiceNum;
-  
-    @wire (getContentDocumentId, {test: '$opportunityInvoiceNum.data'})
+
     contentDocumentId;
 
-    @wire(MessageContext)
-    messageContext;
-
-    @wire(getEmailTemplates) 
     emailTemplate;
 
-    @wire(getEmailInfo, {recordId: '$recordId'})
     orderNum;
 
-    @wire(getReceiverName, {recordId: '$recordId'})
     receiverName;
-
-    @wire (getReceiverEmail, {recordId: '$recordId'})
+    
     receiverEmail;
+
+    @wire (getOpportunityInvoiceNum, {recordId: '$recordId'})
+    wiredOpportunityInvoiceNum({error, data}) {
+      if (error) {
+        console.log(error);
+        let event = new ShowToastEvent({
+        title: 'Error',
+        message: 'Something went wrong',
+        variant: 'error'
+        })
+        this.dispatchEvent(event);
+      }
+
+      if (data) {
+        this.opportunityInvoiceNum = data;
+      }
+    }
+  
+    @wire (getContentDocumentId, {test: '$opportunityInvoiceNum'})
+    wiredContentDocumentId({error, data}) {
+      if (error) {
+        console.log(error);
+        let event = new ShowToastEvent({
+        title: 'Error',
+        message: 'Something went wrong',
+        variant: 'error'
+        })
+        this.dispatchEvent(event);
+      }
+
+      if (data) {
+        this.contentDocumentId = data;
+      }
+    }
+
+    @wire(getEmailTemplates) 
+    wiredEmailTemplate({error, data}) {
+      if (error) {
+        console.log(error);
+        let event = new ShowToastEvent({
+        title: 'Error',
+        message: 'Something went wrong',
+        variant: 'error'
+        })
+        this.dispatchEvent(event);
+      }
+
+      if (data) {
+        this.emailTemplate = data;
+      }
+    }
+
+    @wire(getEmailInfo, {recordId: '$recordId'})
+    wiredOrderNum({error, data}) {
+      if (error) {
+        console.log(error);
+        let event = new ShowToastEvent({
+        title: 'Error',
+        message: 'Something went wrong',
+        variant: 'error'
+        })
+        this.dispatchEvent(event);
+      }
+
+      if (data) {
+        this.orderNum = data;
+      }
+    }
+
+    @wire(getReceiverName, {recordId: '$recordId'})
+    wiredReceiverName({error, data}) {
+      if (error) {
+        console.log(error);
+        let event = new ShowToastEvent({
+        title: 'Error',
+        message: 'Something went wrong',
+        variant: 'error'
+        })
+        this.dispatchEvent(event);
+      }
+
+      if (data) {
+        this.receiverName = data;
+      }
+    }
+    @wire (getReceiverEmail, {recordId: '$recordId'})
+    wiredReceiverEmail({error, data}) {
+    if (error) {
+      console.log(error);
+      let event = new ShowToastEvent({
+      title: 'Error',
+      message: 'Something went wrong',
+      variant: 'error'
+      })
+      this.dispatchEvent(event);
+    }
+
+    if (data) {
+      this.receiverEmail = data;
+    }
+  }
 
     emailBody = '';
 
@@ -45,8 +137,8 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
             pageName: 'filePreview'
         },
         state : {
-            recordIds: this.contentDocumentId.data,
-            selectedRecordId: this.contentDocumentId.data
+            recordIds: this.contentDocumentId,
+            selectedRecordId: this.contentDocumentId
         }
       })
     }
@@ -55,28 +147,25 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
       let pTag = event.target.value;
       let index = pTag.indexOf('</p>');
       let pTagBody = pTag.substring(3, index);
-      console.log(pTagBody);
       this.emailBody = pTagBody;
     }
 
     handleBtnClick() {  
       let toAddress = 'lepeshkoroman42@gmail.com';
       let replyToAddress = 'romalepeshko42@25adcwrcw23mhcv73u73f3ytceai98rgn0rav6it53c9nik7jf.dn-9taimmaw.na224.apex.salesforce.com';
-      let subject = this.opportunityInvoiceNum.data + ' ' + this.emailTemplate.data[0].Subject;
+      let subject = this.opportunityInvoiceNum + ' ' + this.emailTemplate[0].Subject;
       let body = '';
       if (this.emailBody != '') {
         body = this.emailBody;
-        console.log('body is' + body);
       } else {
-        body = this.emailTemplate.data[0].Body;
+        body = this.emailTemplate[0].Body;
       }
       
-      let invoiceNum = this.opportunityInvoiceNum.data;
-      let contentDocumentId = this.contentDocumentId.data;
+      let invoiceNum = this.opportunityInvoiceNum;
+      let contentDocumentId = this.contentDocumentId;
 
       sendEmail({toAddress, replyToAddress, subject, body, invoiceNum, contentDocumentId})
       .then(result => {
-        console.log(result);
         let event = new ShowToastEvent({
           title: 'Success',
           message: 'Message has been sent to receiver',
@@ -86,7 +175,6 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
       })
       .catch(error => {
         console.log(error);
-        console.log(result);
         let event = new ShowToastEvent({
           title: 'Error!',
           message: 'Error has arrisen while sending email',

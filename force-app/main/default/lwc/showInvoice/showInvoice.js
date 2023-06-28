@@ -7,10 +7,32 @@ export default class OpenFileSample extends NavigationMixin(LightningElement) {
   @api recordId;
 
   @wire (getOpportunityInvoiceNum, {recordId: '$recordId'})
-  opportunityInvoiceNum;
+  opportunityInvoiceNum({error, data}) {
+    if (error) {
+      console.log(error);
+      let event = new ShowToastEvent({
+      title: 'Error',
+      message: 'Something went wrong',
+      variant: 'error'
+      })
+      this.dispatchEvent(event);
+    }
+    
+  }
+ 
 
   @wire (getContentDocumentId, {test: '$opportunityInvoiceNum.data'})
-  contentDocumentId;
+  contentDocumentId({error, data}) {
+    if (error) {
+      console.log(error);
+      let event = new ShowToastEvent({
+      title: 'Error',
+      message: 'Something went wrong',
+      variant: 'error'
+      })
+      this.dispatchEvent(event);
+    }
+  }
 
   navigateToFiles() {
     this[NavigationMixin.Navigate]({

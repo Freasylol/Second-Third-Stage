@@ -16,10 +16,6 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
         myHtmlBody = email.htmlBody;
         mySubject = email.subject;
 
-        System.debug('myPlainText is: ' + myPlainText);
-        System.debug('mySubject is: ' + mySubject);
-        System.debug('myInvoiceNum is: ' + myInvoiceNum);
-
         String regexInvoiceNum = 'INV-[0-9]{6}';
 
         Pattern patternInvoiceNum = Pattern.compile(regexInvoiceNum);
@@ -28,7 +24,6 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
 
         while (matcherInvoiceNum.find()) {
             myInvoiceNum = matcherInvoiceNum.group();
-            System.debug('Match found at position ' + myInvoiceNum);
         }
 
         String regexApproved = 'approved|rejected';
@@ -42,14 +37,11 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
         while (matcherApproved.find()) {
             answerStr = matcherApproved.group();
             matches.add(answerStr);
-            System.debug('Approved|Rejected Match found at position ' + answerStr);
         }
 
         statusStr = matches[0];
-        System.debug('StatusStr is ' + statusStr);
 
         for (String el: matches) {
-            System.debug('Match el: ' + el);
         }
 
         Opportunity opportunityObj = [
@@ -61,14 +53,12 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
 
         String stageName = opportunityObj.StageName;
 
-        System.debug('StageName is ' + stageName);
 
         Schema.DescribeFieldResult fieldResult = Opportunity.StageName.getDescribe();
             List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
             List<String> stageNames = new List<String>();
             for (Schema.PicklistEntry s : ple) {
             stageNames.add(s.getLabel());
-            System.debug('value: ' + s.getLabel());
             }
 
         if (statusStr == 'approved') {
@@ -80,8 +70,6 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
                 break;
             }
             }
-
-            System.debug('StageName is ' + stageName);
 
             opportunityObj.StageName = stageName;
             upsert opportunityObj;

@@ -14,8 +14,6 @@ public class OpportunityEmailServiceTest {
             FROM Opportunity
             WHERE Id=:opportunity.Id
         ];
-        System.debug(oppAppoveSoql);
-        System.debug(opportunity);
         Messaging.InboundEmail email = new Messaging.InboundEmail();
         Messaging.InboundEnvelope envelope = new Messaging.InboundEnvelope();
 
@@ -32,8 +30,6 @@ public class OpportunityEmailServiceTest {
             FROM Opportunity
             WHERE Id=:opportunity.Id 
         ];
-
-        System.debug(oppAppoveSoql);
 
         System.assertEquals('Qualification', oppAppoveSoql.StageName);
 

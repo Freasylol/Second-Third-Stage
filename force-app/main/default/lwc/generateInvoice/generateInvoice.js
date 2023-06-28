@@ -8,7 +8,6 @@ export default class LwcQuickAction extends LightningElement {
     @api recordId;
     
     handleBtnClick() {
-      console.log('Record id is ' + this.recordId);
       let attachPDFPromise = attachPDF({opportunityId: this.recordId})
       .then((value) => {
         let event = new ShowToastEvent({
@@ -27,7 +26,6 @@ export default class LwcQuickAction extends LightningElement {
         })
         this.dispatchEvent(event)
       })
-      
     }
 
     closeAction() {

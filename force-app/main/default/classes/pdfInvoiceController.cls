@@ -20,14 +20,10 @@ public class PdfInvoiceController {
         }
       
         this.organization = [SELECT Id, PrimaryContact, Name, Country, City, Street FROM Organization];
-        System.debug(organization);
         this.opportunityObj = [SELECT Id, Name, OwnerId, Invoice_Number__c, Amount FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
-        System.debug(opportunityObj);
         this.opportunityContactRole = [SELECT Id, ContactId, OpportunityId FROM OpportunityContactRole WHERE OpportunityId=:opportunityId];
-        System.debug(opportunityContactRole);
 
         this.opportunityProducts = [SELECT Id, Name, Quantity, TotalPrice, UnitPrice, Product2Id FROM OpportunityLineItem WHERE OpportunityId=:opportunityId];
-        System.debug(opportunityProducts);
 
         List<Product2> assignProduct = new List<Product2>();
 
@@ -46,12 +42,9 @@ public class PdfInvoiceController {
     this.products = assignProduct;
       
     this.contact = [SELECT Id, Name, AccountId, MobilePhone, Email FROM Contact WHERE Id=:opportunityContactRole.ContactId];
-    System.debug(contact);
 
     this.account = [SELECT Id, Name FROM Account WHERE Id=:contact.AccountId];
-    System.debug(account);
 
     this.user = [SELECT Id, Name FROM User WHERE Id=:opportunityObj.OwnerId];
-    System.debug(user);
   }
 }
