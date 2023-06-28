@@ -1,19 +1,22 @@
 <template>
   <template if:false={isDetail}>
     <lightning-card>
-      <div class="slds-p-around_medium lgc-bg">
+      <div class="slds-p-around_medium lgc-bg" style="display: flex;">
         <lightning-input
+          style="width: 100%;"
           data-show-on="tab"
           type="text"
           label="Search by account name"
-          onkeyup={handleNameSearch}>
+          onkeyup={handleSearch}>
         </lightning-input>
-        <lightning-input 
+        <!-- <lightning-input 
+          style="width: 50%;"
+          class="slds-p-left_medium"
           data-show-on="tab"
           type="number"
-          label="Search by closed opps"
+          label="Search by closed opps sum"
           onkeyup={handleNumSearch}>
-       </lightning-input>
+       </lightning-input> -->
       </div>
       <lightning-accordion class="example-accordion"
                            active-section-name="B"
@@ -29,10 +32,11 @@
           </lightning-accordion-section>        
         </template>
       </lightning-accordion>
-      <div>
-        <button onclick={previousPage}>Prev</button>
-        <button onclick={nextPage}>Next</button>
+      <div class="slds-m-top_medium" style="display: flex; justify-content: center">
+        <lightning-button label="Prev" variant="neutral" onclick={previousPage}></lightning-button>
+        <lightning-button class="slds-m-left_medium" label="Next" variant="neutral" onclick={nextPage}></lightning-button>
       </div>
+
     </lightning-card>
     
   </template>

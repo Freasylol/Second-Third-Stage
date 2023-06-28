@@ -2,7 +2,7 @@
 private class PdfInvoiceControllerTest {
   @isTest 
   static void testCurOpportunity() {
-    // Test.startTest();
+    Test.startTest();
 
     Account account = new Account();
     account.Name = 'Test Account';
@@ -47,9 +47,6 @@ private class PdfInvoiceControllerTest {
     product.ProductCode = '1001';
     insert product;
 
-    // Pricebook2 customPriceBook = new Pricebook2(Name='Custom Pricebook', isActive=true);
-    // insert customPriceBook;
-
     Id standardPriceBookId = Test.getStandardPricebookId();
 
     PricebookEntry pricebookEntry = new PricebookEntry();
@@ -68,13 +65,8 @@ private class PdfInvoiceControllerTest {
     insert oppProduct;
 
     System.debug('Opportunity name is ' + opportunity.Name);
-    // System.debug('Opportunity stage name is ' + opportunity.StageName);
-    // System.debug('Opportunity closeDate is ' + opportunity.CloseDate);
 
     Opportunity newOPP = [SELECT Invoice_Number__c FROM Opportunity WHERE Id=:opportunity.id];
-    // System.debug(newOPP.Invoice_Number__c);
-    // System.debug(newOPP.Name);
-    // System.debug(newOPP.OwnerId);
 
     Opportunity testOpp = [SELECT Id, Name, OwnerId, Invoice_Number__c, Amount FROM Opportunity LIMIT 1];
     System.debug('testOpp name is ' + testOpp.Name);
@@ -82,11 +74,10 @@ private class PdfInvoiceControllerTest {
     Opportunity testOp = (Opportunity)oppController.getRecord();
     System.debug('Opp Id is ' + testOp.Id);
     System.debug('Opp Name is ' + testOp.Name);
-    // System.debug('Opp instance of list' + testOp instanceof Opportunity);
     PdfInvoiceController invoiceController = new PdfInvoiceController(oppController);
     System.debug('CurOpportunity name is ' + opportunity.Name);
    
     System.assertEquals('Test Opportunity', opportunity.Name);
-    // Test.stopTest();
+    Test.stopTest();
   }
 }

@@ -208,8 +208,6 @@
                     <td class="pdf-invoice-info__invoice-info">
                         <div class="pdf-invoice-info__invoice-item">
                             <center>
-                                <apex:outputText value="{!curOpportunityId}"></apex:outputText>
-                                {!Organization.Name}
                                 INVOICE
                             </center>
                         </div>

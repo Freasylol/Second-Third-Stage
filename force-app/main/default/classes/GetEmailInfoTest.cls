@@ -6,26 +6,26 @@ public class GetEmailInfoTest {
 
     @isTest
     static void testGetEmailInfo() {
-      Account account = new Account();
-      account.Name = 'Test Account';
-      insert account;
+        Account account = new Account();
+        account.Name = 'Test Account';
+        insert account;
 
-      Opportunity opportunity = new Opportunity();
-      opportunity.Name = 'Test opportunity Name';
-      opportunity.AccountId = account.Id;
-      opportunity.StageName = 'Closed Won';
-      opportunity.CloseDate = Date.today();
-      opportunity.Amount = 10;
-      insert opportunity;
+        Opportunity opportunity = new Opportunity();
+        opportunity.Name = 'Test opportunity Name';
+        opportunity.AccountId = account.Id;
+        opportunity.StageName = 'Closed Won';
+        opportunity.CloseDate = Date.today();
+        opportunity.Amount = 10;
+        insert opportunity;
 
-      Opportunity oppSoql = [
-        SELECT Invoice_Number__c
-        FROM Opportunity
-        WHERE Id=:opportunity.Id
-      ];
+        Opportunity oppSoql = [
+            SELECT Invoice_Number__c
+            FROM Opportunity
+            WHERE Id=:opportunity.Id
+        ];
 
-      String result = GetEmailInfo.getEmailInfo(opportunity.Id);
+        String result = GetEmailInfo.getEmailInfo(opportunity.Id);
 
-      System.assertEquals(oppSoql.Invoice_Number__c, result);
+        System.assertEquals(oppSoql.Invoice_Number__c, result);
     }
 }

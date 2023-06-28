@@ -1,22 +1,38 @@
 <template>
   
   <lightning-quick-action-panel header="Send Invoice">
-    <div>
-      <a onclick={navigateToFiles}>Navigate to files</a>
-    </div>
-    <div class="slds-m-top_medium">
+    <div class="slds-m-vertical_medium">
       <template for:each={emailTemplate.data} for:item="emTempl">
         <li key={emTempl.Id} style="list-style-type:none">
-          {emTempl.Subject}<br>
+          <div class="slds-text-body_regular">
+            <span class="slds-text-title_bold" style="font-size:12px;">Subject:</span> {emTempl.Subject}
+          </div>
+          <div class="slds-text-body_regular">
+            <span class="slds-text-title_bold" style="font-size:12px;">Order Number:</span> {orderNum.data}
+          </div>
+          <div class="slds-text-body_regular">
+            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Name:</span> {receiverName.data}
+          </div>
+          <div class="slds-text-body_regular">
+            <span class="slds-text-title_bold" style="font-size:12px;">Receiver Email:</span> {receiverEmail.data}
+          </div>
+          <!-- {emTempl.Subject}<br>
           {orderNum.data}<br>
           {receiverName.data}<br>
-          {receiverEmail.data}<br>
-          <lightning-input label="Email body" value={emTempl.Body}></lightning-input>
-         
+          {receiverEmail.data}<br> -->
+          <lightning-input-rich-text onchange={handleEmailBody} class="slds-m-vertical_medium" label="Email body" value={emTempl.Body}></lightning-input-rich-text>
         </li>
       </template> 
-      <lightning-button label="Send" variant="neutral" onclick={handleBtnClick}>
+    </div>
+    <div class="button-container" style="display: flex; justify-content:end;">
+      <lightning-button class="slds-m-right_medium" label="Preview" variant="neutral" onclick={navigateToFiles}>
       </lightning-button>
+      <lightning-button label="Send" variant="brand" onclick={handleBtnClick}>
+      </lightning-button>
+      <!-- <div>
+        <a onclick={navigateToFiles}>Navigate to files</a>
+      </div> -->
+      
     </div>
   </lightning-quick-action-panel>
 </template>

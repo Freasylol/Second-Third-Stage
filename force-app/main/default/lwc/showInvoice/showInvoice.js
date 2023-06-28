@@ -12,18 +12,6 @@ export default class OpenFileSample extends NavigationMixin(LightningElement) {
   @wire (getContentDocumentId, {test: '$opportunityInvoiceNum.data'})
   contentDocumentId;
 
-  // logId() {
-  //   console.log('Record id is ' + this.recordId);
-  // }
-
-  // logOpportunityInvoiceNum() {
-  //   console.log('OpportunityInvoiceNum is ' + this.opportunityInvoiceNum.data);
-  // }
-
-  // logContentDocumentId() {
-  //   console.log('Content document is ' + this.contentDocumentId.data)
-  // }
-
   navigateToFiles() {
     this[NavigationMixin.Navigate]({
       type: 'standard__namedPage',
@@ -36,17 +24,4 @@ export default class OpenFileSample extends NavigationMixin(LightningElement) {
       }
     })
   }
-
-  // navigateToFiles() {
-  //   this[NavigationMixin.Navigate]({
-  //     type: 'standard__namedPage',
-  //     attributes: {
-  //         pageName: 'filePreview'
-  //     },
-  //     state : {
-  //         recordIds: '069Dn000003hIYlIAM',
-  //         selectedRecordId:'069Dn000003hIYlIAM'
-  //     }
-  //   })
-  // }
 }
