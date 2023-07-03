@@ -6,14 +6,12 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
         Messaging.InboundEmailResult result = new Messaging.InboundEmailResult();
         
         String myPlainText= '';
-        String myHtmlBody = '';
         String mySubject = '';
         String myInvoiceNum = '';
         String answerStr = '';
         String statusStr = '';
             
         myPlainText = email.plainTextBody;
-        myHtmlBody = email.htmlBody;
         mySubject = email.subject;
 
         String regexInvoiceNum = 'INV-[0-9]{6}';
@@ -41,9 +39,6 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
 
         statusStr = matches[0];
 
-        for (String el: matches) {
-        }
-
         Opportunity opportunityObj = [
             SELECT StageName 
             FROM Opportunity
@@ -52,7 +47,6 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
         ][0];
 
         String stageName = opportunityObj.StageName;
-
 
         Schema.DescribeFieldResult fieldResult = Opportunity.StageName.getDescribe();
             List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();

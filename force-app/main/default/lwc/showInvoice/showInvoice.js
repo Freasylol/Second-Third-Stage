@@ -19,7 +19,6 @@ export default class OpenFileSample extends NavigationMixin(LightningElement) {
     }
     
   }
- 
 
   @wire (getContentDocumentId, {test: '$opportunityInvoiceNum.data'})
   contentDocumentId({error, data}) {

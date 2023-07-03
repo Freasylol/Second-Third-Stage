@@ -1,11 +1,10 @@
 <template>
-  
   <lightning-quick-action-panel header="Send Invoice">
     <div class="slds-m-vertical_medium">
-      <template for:each={emailTemplate} for:item="emTempl">
-        <li key={emTempl.Id} style="list-style-type:none">
+      <template for:each={emailTemplate} for:item="emailTemplateEl">
+        <li key={emailTemplateEl.Id} style="list-style-type:none">
           <div class="slds-text-body_regular">
-            <span class="slds-text-title_bold" style="font-size:12px;">Subject:</span> {emTempl.Subject}
+            <span class="slds-text-title_bold" style="font-size:12px;">Subject:</span> {emailTemplateEl.Subject}
           </div>
           <div class="slds-text-body_regular">
             <span class="slds-text-title_bold" style="font-size:12px;">Order Number:</span> {orderNum}
@@ -16,11 +15,7 @@
           <div class="slds-text-body_regular">
             <span class="slds-text-title_bold" style="font-size:12px;">Receiver Email:</span> {receiverEmail}
           </div>
-          <!-- {emTempl.Subject}<br>
-          {orderNum.data}<br>
-          {receiverName.data}<br>
-          {receiverEmail.data}<br> -->
-          <lightning-input-rich-text onchange={handleEmailBody} class="slds-m-vertical_medium" label="Email body" value={emTempl.Body}></lightning-input-rich-text>
+          <lightning-input-rich-text onchange={handleEmailBody} class="slds-m-vertical_medium" label="Email body" value={emailTemplate.Body}></lightning-input-rich-text>
         </li>
       </template> 
     </div>
@@ -28,11 +23,7 @@
       <lightning-button class="slds-m-right_medium" label="Preview" variant="neutral" onclick={navigateToFiles}>
       </lightning-button>
       <lightning-button label="Send" variant="brand" onclick={handleBtnClick}>
-      </lightning-button>
-      <!-- <div>
-        <a onclick={navigateToFiles}>Navigate to files</a>
-      </div> -->
-      
+      </lightning-button>    
     </div>
   </lightning-quick-action-panel>
 </template>

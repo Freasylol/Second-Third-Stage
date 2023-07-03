@@ -11,7 +11,12 @@ public class ShowInvoiceControllerTest {
         opportunity.StageName = 'Prospecting';
         opportunity.CloseDate = Date.today();
         insert opportunity;
-        Opportunity testOpp = [SELECT Id, Invoice_Number__c FROM Opportunity WHERE Name='Test opportunity' LIMIT 1];
+        Opportunity testOpp = [
+            SELECT Id, Invoice_Number__c 
+            FROM Opportunity 
+            WHERE Name='Test opportunity'
+            LIMIT 1
+        ];
         String testInvoiceNum = ShowInvoiceController.getOpportunityInvoiceNum(testOpp.Id);
         System.assertEquals(testOpp.Invoice_Number__c, testInvoiceNum);
         Test.stopTest();
@@ -25,7 +30,11 @@ public class ShowInvoiceControllerTest {
         opportunity.CloseDate = Date.today();
         insert opportunity;
 
-        Opportunity newOpp = [SELECT Invoice_Number__c FROM Opportunity WHERE Id=:opportunity.Id];
+        Opportunity newOpp = [
+            SELECT Invoice_Number__c
+            FROM Opportunity 
+            WHERE Id=:opportunity.Id
+        ];
 
         ContentVersion contentVersion = new ContentVersion();
         contentVersion.Title = newOpp.Invoice_Number__c;
@@ -35,7 +44,11 @@ public class ShowInvoiceControllerTest {
         insert contentVersion;
 
         ContentDocument contentDocument = new ContentDocument();
-        ContentVersion testContentVersion  = [SELECT ContentDocumentId FROM ContentVersion WHERE Id=:contentVersion.Id];
+        ContentVersion testContentVersion = [
+            SELECT ContentDocumentId 
+            FROM ContentVersion 
+            WHERE Id=:contentVersion.Id
+        ];
 
         ContentDocumentLink doc = new ContentDocumentLink();
         doc.ContentDocumentId = testContentVersion.ContentDocumentId;

@@ -19,16 +19,34 @@ public class PdfInvoiceController {
             totalSum = 0;
         }
       
-        this.organization = [SELECT Id, PrimaryContact, Name, Country, City, Street FROM Organization];
-        this.opportunityObj = [SELECT Id, Name, OwnerId, Invoice_Number__c, Amount FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
-        this.opportunityContactRole = [SELECT Id, ContactId, OpportunityId FROM OpportunityContactRole WHERE OpportunityId=:opportunityId];
+        this.organization = [
+            SELECT Id, PrimaryContact, Name, Country, City, Street 
+            FROM Organization
+        ];
 
-        this.opportunityProducts = [SELECT Id, Name, Quantity, TotalPrice, UnitPrice, Product2Id FROM OpportunityLineItem WHERE OpportunityId=:opportunityId];
+        this.opportunityObj = [
+            SELECT Id, Name, OwnerId, Invoice_Number__c, Amount 
+            FROM Opportunity WHERE Id=:opportunityId 
+            LIMIT 1
+        ];
+
+        this.opportunityContactRole = [
+            SELECT Id, ContactId, OpportunityId 
+            FROM OpportunityContactRole 
+            WHERE OpportunityId=:opportunityId
+        ];
+
+        this.opportunityProducts = [
+            SELECT Id, Name, Quantity, TotalPrice, UnitPrice, Product2Id 
+            FROM OpportunityLineItem 
+            WHERE OpportunityId=:opportunityId
+        ];
 
         List<Product2> assignProduct = new List<Product2>();
-
-        List<Product2> allProducts = [SELECT Name FROM Product2];
-
+        List<Product2> allProducts = [
+            SELECT Name
+            FROM Product2
+        ];
 
         for (OpportunityLineItem el : opportunityProducts) {
             for (Product2 productEl: allProducts) {
@@ -39,12 +57,24 @@ public class PdfInvoiceController {
             }
         }
       
-    this.products = assignProduct;
-      
-    this.contact = [SELECT Id, Name, AccountId, MobilePhone, Email FROM Contact WHERE Id=:opportunityContactRole.ContactId];
+        this.products = assignProduct;
+        
+        this.contact = [
+            SELECT Id, Name, AccountId, MobilePhone, Email 
+            FROM Contact 
+            WHERE Id=:opportunityContactRole.ContactId
+        ];
 
-    this.account = [SELECT Id, Name FROM Account WHERE Id=:contact.AccountId];
-
-    this.user = [SELECT Id, Name FROM User WHERE Id=:opportunityObj.OwnerId];
+        this.account = [
+            SELECT Id, Name 
+            FROM Account 
+            WHERE Id=:contact.AccountId
+        ];
+        
+        this.user = [
+            SELECT Id, Name 
+            FROM User
+            WHERE Id=:opportunityObj.OwnerId
+        ];
   }
 }

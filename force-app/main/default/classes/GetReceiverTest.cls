@@ -67,6 +67,4 @@ public class GetReceiverTest {
 
         System.assertEquals(contact.Email, receiverEmail);
     }
-
-
 }

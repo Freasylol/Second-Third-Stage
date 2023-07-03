@@ -1,5 +1,4 @@
-import { wire, track, api, LightningElement } from 'lwc';
-import { publish, MessageContext } from 'lightning/messageService';
+import { wire, api, LightningElement } from 'lwc';
 import sendEmail from '@salesforce/apex/EmailSender.sendEmail';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
@@ -38,7 +37,6 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
         })
         this.dispatchEvent(event);
       }
-
       if (data) {
         this.opportunityInvoiceNum = data;
       }
@@ -111,6 +109,7 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
         this.receiverName = data;
       }
     }
+    
     @wire (getReceiverEmail, {recordId: '$recordId'})
     wiredReceiverEmail({error, data}) {
     if (error) {
@@ -153,12 +152,12 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
     handleBtnClick() {  
       let toAddress = 'lepeshkoroman42@gmail.com';
       let replyToAddress = 'romalepeshko42@25adcwrcw23mhcv73u73f3ytceai98rgn0rav6it53c9nik7jf.dn-9taimmaw.na224.apex.salesforce.com';
-      let subject = this.opportunityInvoiceNum + ' ' + this.emailTemplate[0].Subject;
+      let subject = this.opportunityInvoiceNum + ' ' + this.emailTemplate.Subject;
       let body = '';
       if (this.emailBody != '') {
         body = this.emailBody;
       } else {
-        body = this.emailTemplate[0].Body;
+        body = this.emailTemplate.Body;
       }
       
       let invoiceNum = this.opportunityInvoiceNum;

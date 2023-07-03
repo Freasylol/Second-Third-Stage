@@ -1,8 +1,6 @@
 public with sharing class EmailSender {
      @AuraEnabled
     public static void sendEmail(String toAddress, String replyToAddress, String subject, String body, String invoiceNum, String contentDocumentId){
-        Messaging.reserveSingleEmailCapacity(2);
-
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setToAddresses(new List<String>{toAddress});
         mail.setReplyTo(replyToAddress);
@@ -18,7 +16,8 @@ public with sharing class EmailSender {
             FROM ContentVersion 
             WHERE ContentDocumentId=:contentDocumentId
             AND IsLatest=true
-            LIMIT 1][0].VersionData;
+            LIMIT 1
+        ][0].VersionData;
 
         pdfAttachment.setBody(pdfContent);
 

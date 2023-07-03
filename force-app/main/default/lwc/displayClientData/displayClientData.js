@@ -1,6 +1,5 @@
 import { LightningElement, wire, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import getAccounts from '@salesforce/apex/DisplayClientData.getAccounts';
 import getClosedOpportunitiesByAccountId from '@salesforce/apex/DisplayClientData.getClosedOpportunitiesByAccountId';
 import getOpportunitiesProductByOpportunityId from '@salesforce/apex/DisplayClientData.getOpportunitiesProductByOpportunityId';
 import searchAccountsByName from '@salesforce/apex/DisplayClientData.searchAccountsByName';
@@ -12,23 +11,20 @@ const PAGE_SIZE = 10;
 
 export default class LightningExampleAccordionBasic extends NavigationMixin(LightningElement)  {
   @api recordId;
+
   isDetail = false;
 
+  closedOpportunities;
   labelArr = [];
   valueArr = [];
-  test;
-  accounts;
-  accountInfo;
-  searchMap = [];
+  pageData = [];
+  sectionMap = [];
+  
   nameSearchStr = '';
   numSearchStr = '0';
 
   currentPage = 1;
   pageSize = PAGE_SIZE;
-  pageData = [];
-  sectionMap = [];
-
-  closedOpportunities;
 
   @wire (getClosedOpportunities)
   wiredClosedOpportunities({error, data}) {
@@ -149,7 +145,6 @@ export default class LightningExampleAccordionBasic extends NavigationMixin(Ligh
     let actionName = event.detail.action.name;
     let row = event.detail.row;
 
-
     if (actionName === 'showOpportunityProducts') {
       let opportunityProductsPromise = await getOpportunitiesProductByOpportunityId({opportunityId: row.id})
       .then(async (value) => {
@@ -253,25 +248,6 @@ export default class LightningExampleAccordionBasic extends NavigationMixin(Ligh
         } 
       })
       }
-  }
-
-  @wire (getAccounts)
-  getAccounts({error, data}) {
-    if (error) {
-      console.log(error);
-      let event = new ShowToastEvent({
-      title: 'Error',
-      message: 'Something went wrong',
-      variant: 'error'
-      })
-      this.dispatchEvent(event);
-    }
-    
-
-    if (data) {
-      this.genOpportunity(data);
-      this.accounts = data;
-    }
   }
 
   handleSectionToggle() {

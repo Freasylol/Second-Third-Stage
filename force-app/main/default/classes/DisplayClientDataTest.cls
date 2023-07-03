@@ -4,28 +4,6 @@ public class DisplayClientDataTest {
 
     }
 
-    @isTest static void testGetAccounts() {
-        Account account = new Account();
-        account.Name = 'Test Account';
-        insert account;
-
-        List<Account> accounts = DisplayClientData.getAccounts();
-
-        System.assertEquals(account.Name, accounts[0].Name);
-        System.assertEquals(account.Id, accounts[0].Id);
-    }
-
-    @isTest static void testGetAccountById() {
-        Account account = new Account();
-        account.Name = 'Test Account';
-        insert account;
-        
-        Account methodAccount = DisplayClientData.getAccountById(account.Id);
-
-        System.assertEquals(account.Name, methodAccount.Name);
-        System.assertEquals(account.Id, methodAccount.Id);
-    }
-
     @isTest static void testGetClosedOpportunitiesByAccountId() {
         Account account = new Account();
         account.Name = 'Test Account';

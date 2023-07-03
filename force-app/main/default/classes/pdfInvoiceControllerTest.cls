@@ -64,9 +64,18 @@ private class PdfInvoiceControllerTest {
     oppProduct.TotalPrice = oppProduct.Quantity * pricebookEntry.UnitPrice;
     insert oppProduct;
 
-    Opportunity newOPP = [SELECT Invoice_Number__c FROM Opportunity WHERE Id=:opportunity.id];
+    Opportunity newOPP = [
+        SELECT Invoice_Number__c 
+        FROM Opportunity 
+        WHERE Id=:opportunity.id
+    ];
 
-    Opportunity testOpp = [SELECT Id, Name, OwnerId, Invoice_Number__c, Amount FROM Opportunity LIMIT 1];
+    Opportunity testOpp = [
+        SELECT Id, Name, OwnerId, Invoice_Number__c, Amount
+        FROM Opportunity
+        LIMIT 1
+    ];
+    
     ApexPages.StandardController oppController = new ApexPages.StandardController(testOpp);
     Opportunity testOp = (Opportunity)oppController.getRecord();
     PdfInvoiceController invoiceController = new PdfInvoiceController(oppController);

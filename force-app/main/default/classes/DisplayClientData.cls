@@ -1,22 +1,6 @@
 public with sharing class DisplayClientData {
 
     @AuraEnabled(cacheable=true)
-    public static List<Account> getAccounts() {
-        return [
-            SELECT Id, Name
-            FROM Account
-            ];
-    }
-
-    public static Account getAccountById(String accountId) {
-        return [
-            SELECT Id, Name
-            FROM Account
-            WHERE Id=:accountId
-        ];
-    }
-
-    @AuraEnabled(cacheable=true)
     public static List<Opportunity> getClosedOpportunitiesByAccountId(String accountId) {
         return [
             SELECT Id, Name, AccountId, StageName, CreatedDate, CloseDate, Amount
