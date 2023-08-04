@@ -1,5 +1,5 @@
 import { wire, api, LightningElement } from 'lwc';
-import sendEmail from '@salesforce/apex/EmailSender.sendEmail';
+import sendEmailWithAttachment from '@salesforce/apex/EmailSender.sendEmailWithAttachment';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import getEmailTemplates from '@salesforce/apex/EmailTemplateController.getEmailTemplates';
@@ -163,7 +163,7 @@ export default class LwcQuickAction extends NavigationMixin(LightningElement) {
       let invoiceNum = this.opportunityInvoiceNum;
       let contentDocumentId = this.contentDocumentId;
 
-      sendEmail({toAddress, replyToAddress, subject, body, invoiceNum, contentDocumentId})
+      sendEmailWithAttachment({toAddress, replyToAddress, subject, body, invoiceNum, contentDocumentId})
       .then(result => {
         let event = new ShowToastEvent({
           title: 'Success',

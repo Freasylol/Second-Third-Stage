@@ -1,6 +1,6 @@
 public with sharing class EmailSender {
-     @AuraEnabled
-    public static void sendEmail(String toAddress, String replyToAddress, String subject, String body, String invoiceNum, String contentDocumentId){
+    @AuraEnabled
+    public static void sendEmailWithAttachment(String toAddress, String replyToAddress, String subject, String body, String invoiceNum, String contentDocumentId){
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setToAddresses(new List<String>{toAddress});
         mail.setReplyTo(replyToAddress);
@@ -23,6 +23,17 @@ public with sharing class EmailSender {
 
         mail.setFileAttachments(new List<Messaging.EmailFileAttachment>{pdfAttachment});
         
+        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
+    }
+
+    @AuraEnabled
+    public static void sendEmail(String toAddress, String replyToAddress, String subject, String body){
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setToAddresses(new List<String>{toAddress});
+        mail.setReplyTo(replyToAddress);
+        mail.setSubject(subject);
+        mail.setHtmlBody(body);
+                
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
     }
 }

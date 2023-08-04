@@ -61,7 +61,7 @@ public class EmailSenderTest {
 
         String toAddress = contact.Email;
 
-        EmailSender.sendEmail(toAddress, replyToAddress, subject,
+        EmailSender.sendEmailWithAttachment(toAddress, replyToAddress, subject,
                                 body, invoiceNum, contentDocumentId);
 
         Test.stopTest();

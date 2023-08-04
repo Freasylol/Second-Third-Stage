@@ -1,0 +1,40 @@
+<template>
+    <lightning-card>
+        <p style="text-align: center; font-size: 16px; color: #b0aeae;">Title</p>
+        <hr class="slds-m-vertical_small">
+        <div class="slds-m-left_medium"> 
+            <p
+            style="font-weight: 700; margin-left: 5px;"
+            >Schedule Batch</p>
+            <p>Description text</p>
+            <lightning-input
+            style="width: 90%;"
+            type="text"
+            label="CRON String"
+            required="true"
+            value="0 0 0 * * ?"
+            field-level-help="Please enter CRON string"
+            onclick={handleInput}
+            disabled={isInputDisabled}
+            >
+            </lightning-input>
+            <p>
+                <lightning-formatted-url 
+                value="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm"
+                label="Read more about scheduling"
+                target="_blank">
+                </lightning-formatted-url>
+            </p>
+            <hr 
+            style="width: 90%;"
+            class="slds-m-vertical_small"
+            >      
+            <div class="button-container" style="display: flex; justify-content:end;">
+                <lightning-button label='Run Once' variant={runOnceBtnVar} onclick={runOnceHandler}>
+                </lightning-button>    
+                <lightning-button class="slds-m-horizontal_medium" label={scheduleBtnLabel} variant={scheduleBtnVar} onclick={scheduleBatchHandler}>
+                </lightning-button> 
+            </div>
+        </div>
+    </lightning-card>
+</template>
