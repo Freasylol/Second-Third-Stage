@@ -1,8 +1,4 @@
 public with sharing class CreateApexBatchScheduler {
-    public CreateApexBatchScheduler() {
-      
-    }
-
     @AuraEnabled(cacheable=true)
     public static void createApexBatchable(String className) {
         Type t = Type.forName(className);
@@ -14,8 +10,6 @@ public with sharing class CreateApexBatchScheduler {
                 FROM AsyncApexJob
                 WHERE Id=:jobId
             ];
-            Boolean a = true;   
-        } else {
         }
     }
 
@@ -29,17 +23,16 @@ public with sharing class CreateApexBatchScheduler {
             Schedulable batchInstance = (Schedulable)t.newInstance();
             String jobId = System.schedule(jobName, cronExpr, batchInstance);
             return jobId;
-        } else {
         }
         return '';
     }
 
     @AuraEnabled(cacheable=false)
-    public static void abortApexSchedulable(String jobName) {
+    public static void abortApexSchedulable(String jobId) {
         CronTrigger obj = [
             SELECT Id, CronJobDetail.Name
             FROM CronTrigger
-            WHERE Id=:jobName
+            WHERE Id=:jobId
         ];
         System.abortJob(obj.Id);
     }

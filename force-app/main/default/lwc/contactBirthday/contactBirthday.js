@@ -33,7 +33,7 @@ export default class ContactBirthday extends LightningElement {
         this.scheduleBtnLabel = 'Abort Batch';
         
       } else if (this.scheduleBtnLabel == 'Abort Batch') {
-        abortApexSchedulable({jobName: this.scheduledJobId})
+        abortApexSchedulable({jobId: this.scheduledJobId})
         .then(result => {
 
         })

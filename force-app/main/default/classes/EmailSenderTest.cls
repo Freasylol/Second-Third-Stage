@@ -5,7 +5,7 @@ public class EmailSenderTest {
     }
 
     @isTest
-    static  void testSendEmail() {
+    static void testSendEmail() {
         Test.startTest();
 
         Opportunity opportunity = new Opportunity();

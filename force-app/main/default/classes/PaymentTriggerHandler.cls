@@ -1,8 +1,4 @@
 public with sharing class PaymentTriggerHandler {
-    public PaymentTriggerHandler() {
-
-    }
-
     public static void paymentTriggerMethod(List<Payment__c> newList) {
         for (Payment__c el : newList) {
             Opportunity oppEl = [
@@ -19,6 +15,8 @@ public with sharing class PaymentTriggerHandler {
             } else if (oppEl.PaymentSum__c != 0) {
                 oppEl.StageName = 'Partially Paid';
             } 
+
+            System.debug(oppEl);
 
             update oppEl;
         }

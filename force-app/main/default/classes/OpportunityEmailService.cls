@@ -68,7 +68,7 @@ global class OpportunityEmailService implements Messaging.InboundEmailHandler {
             opportunityObj.StageName = stageName;
             upsert opportunityObj;
         } else {
-            opportunityObj.StageName = stageNames[stageNames.size() - 1];
+            opportunityObj.StageName = 'Closed Lost';
             upsert opportunityObj;
         }
         
