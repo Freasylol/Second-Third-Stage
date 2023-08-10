@@ -60,9 +60,6 @@ public class PaymentTriggerTest {
             WHERE Id=:fullOpp.Id
         ];
 
-        System.debug(updPartOpp);
-        System.debug(updFullOpp);
-
         System.AssertEquals('Partially Paid', updPartOpp.StageName);
         System.AssertEquals('Fully Paid', updFullOpp.StageName);
     }

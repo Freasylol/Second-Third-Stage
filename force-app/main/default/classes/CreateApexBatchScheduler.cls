@@ -36,4 +36,9 @@ public with sharing class CreateApexBatchScheduler {
         ];
         System.abortJob(obj.Id);
     }
+
+    public static void checkJobStatus()
+    {   
+        System.debug('test Check Job');
+    }
 }

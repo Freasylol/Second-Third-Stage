@@ -14,25 +14,39 @@ export default class ContactBirthday extends LightningElement {
     @api isInputDisabled = false;
     cronString = '0 0 0 * * ?';
 
+    @api testCounter = 0;
+
+    connectedCallback() {
+        if (localStorage.getItem('JobId') !== '0') {
+            this.switchToAbortBtn();
+        }
+    }
+
     handleInput(event) {
-      this.cronString = event.target.value;
+      this.cronString = event.target.value;      
     }
 
     runOnceHandler() {
       createApexBatchable({className: this.batchName});
     }
 
-    scheduleBatchHandler() {      
-      if (this.scheduleBtnLabel == 'Schedule Batch') {
-        createApexSchedulable({className: this.schedulerName, cronString: this.cronString})
-        .then(result => {
-          this.scheduledJobId = result;
-        })
+    switchToAbortBtn() {
         this.isInputDisabled = true;
         this.scheduleBtnVar = 'destructive';
         this.scheduleBtnLabel = 'Abort Batch';
-        
+    }
+
+    scheduleBatchHandler() {      
+      if (this.scheduleBtnLabel == 'Schedule Batch') {
+        console.log(this.cronString);
+        createApexSchedulable({className: this.schedulerName, cronString: this.cronString})
+        .then(result => {
+          this.scheduledJobId = result;
+          localStorage.setItem('JobId', this.scheduledJobId);
+        })
+        this.switchToAbortBtn();
       } else if (this.scheduleBtnLabel == 'Abort Batch') {
+        this.scheduledJobId = localStorage.getItem('JobId');
         abortApexSchedulable({jobId: this.scheduledJobId})
         .then(result => {
 
@@ -43,6 +57,7 @@ export default class ContactBirthday extends LightningElement {
         this.isInputDisabled = false;
         this.scheduleBtnVar = 'brand';
         this.scheduleBtnLabel = 'Schedule Batch';
+        localStorage.setItem('JobId', '0');
       }
       
     }

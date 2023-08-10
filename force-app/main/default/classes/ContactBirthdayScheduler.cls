@@ -6,7 +6,6 @@ global class ContactBirthdayScheduler implements Schedulable {
     global void execute(SchedulableContext sc) {
         ContactBirthdayBatch batch = new ContactBirthdayBatch();
         
-        Database.executeBatch(batch);
-        
+        Database.executeBatch(batch);      
     }
 }
